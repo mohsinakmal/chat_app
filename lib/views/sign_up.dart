@@ -1,7 +1,7 @@
 import 'package:chat_app/app/locator.dart';
 import 'package:chat_app/utils/image_utils.dart';
 import 'package:chat_app/utils/size_config.dart';
-import 'package:chat_app/viewmodels/sign_up_model.dart';
+import 'package:chat_app/viewmodels/sign_up_in_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -10,7 +10,7 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<SignUpViewModel>.reactive(
-      onModelReady: (data) => data.setFocusListener(),
+      onModelReady: (data) => data.initializeModel(),
       builder: (context, data, child) {
         return GestureDetector(
           onTap: (){
@@ -189,28 +189,33 @@ class SignUp extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: SizeConfig.heightMultiplier * 2,),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                //bottom: SizeConfig.heightMultiplier * 5.5,
-                              top: 3.5 * SizeConfig.heightMultiplier,
-                                right: 3.5 * SizeConfig.widthMultiplier,
-                                left: 3.5 * SizeConfig.widthMultiplier),
-                            height: 6 * SizeConfig.heightMultiplier,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                color: Colors.blue,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(50)),
+                        InkWell(
+                          onTap: data.busy ("isSigningUp")? null: (){
+                            data.validateInfo();
+                          },
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  //bottom: SizeConfig.heightMultiplier * 5.5,
+                                top: 3.5 * SizeConfig.heightMultiplier,
+                                  right: 3.5 * SizeConfig.widthMultiplier,
+                                  left: 3.5 * SizeConfig.widthMultiplier),
+                              height: 6 * SizeConfig.heightMultiplier,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  color: Colors.blue,
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(50)),
+                                  ),
+                              child: Center(
+                                child: Text(
+                                  "Sign Up",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                      2.1 * SizeConfig.textMultiplier),
                                 ),
-                            child: Center(
-                              child: Text(
-                                "Sign Up",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize:
-                                    2.1 * SizeConfig.textMultiplier),
                               ),
                             ),
                           ),
@@ -222,10 +227,32 @@ class SignUp extends StatelessWidget {
                             Container(
                               child: Text("Already signed Up,"),
                             ),
-                            Container(
-                              child: Text(" Sign In?"),
+                            GestureDetector(
+                              onTap: (){
+                                data.navigateToSignInScreen();
+                              },
+                              child: Container(
+                                child: Text(" Sign In?"),
+                              ),
                             ),
                           ],
+                        ),
+                        Container(
+                          height: SizeConfig.heightMultiplier * 5,
+                          child: Center(
+                            child:  data.errorMessage != null
+                                ? Text(
+                              data.errorMessage,
+                              style: TextStyle(
+                                color: Colors.redAccent,
+                                fontSize: 2 *
+                                    SizeConfig.textMultiplier,
+                              ),
+                              maxLines: null,
+                              textAlign: TextAlign.center,
+                            )
+                                : Container(),
+                          ),
                         ),
                       ],
                     ),

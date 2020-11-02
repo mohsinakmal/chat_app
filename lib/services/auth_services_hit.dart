@@ -31,4 +31,9 @@ class AuthServicesHit extends MyBaseViewModel implements AuthServices{
     }
   }
 
+  @override
+  Future logout() async{
+    await FirebaseAuth.instance.signOut();
+  }
+
 }
