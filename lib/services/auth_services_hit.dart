@@ -23,7 +23,14 @@ class AuthServicesHit extends MyBaseViewModel implements AuthServices{
     try{
       await mAuth.createUserWithEmailAndPassword(email: email, password: password);
       String userId = mAuth.currentUser.uid;
-      firestore.collection("Users").doc(userId);
+      firestore.collection("Users").doc(userId).set(
+        {
+          "name": name,
+          "email": email,
+          "password": password,
+
+        }
+      );
       return SignUpResponse(success: true, message: "success");
     }
     catch(e){

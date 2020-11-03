@@ -2,11 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CommonFunctions{
-//   extension contextExtensions on BuildContext {
-//   void unFocus(){
-//     FocusScope.of(this).requestFocus(FocusNode());
-//   }
-// }
+
   static bool hasOneUpperCase(String password){
     String pattern = r'^(?=.*?[A-Z]).{1,}$';
     RegExp regExp = new RegExp(pattern);
@@ -38,5 +34,10 @@ class CommonFunctions{
     }else{
       return false;
     }
+  }
+}
+extension contextExtensions on BuildContext{
+  void unFocus(){
+    FocusScope.of(this).requestFocus(FocusNode());
   }
 }

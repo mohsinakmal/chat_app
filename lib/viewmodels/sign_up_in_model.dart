@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat_app/services/auth_services_hit.dart';
 import 'package:chat_app/utils/common_functions.dart';
 import 'package:chat_app/viewmodels/my_base_view_model.dart';
@@ -8,9 +10,11 @@ class SignUpViewModel extends MyBaseViewModel{
   String name;
   String email;
   String password;
+  File _profileImage;
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  File getProfileImage() => _profileImage;
   bool isSigningIn = false;
   FocusNode nameFocus = new FocusNode();
   FocusNode emailFocus = new FocusNode();
@@ -83,7 +87,7 @@ void validateInfo() async{
                 setBusyForObject("isSigningUp", true);
                 var response = await authServicesHit.signup(name: name, email: email, password: password);
                 if(response.success){
-                  navigateToHomeScreen();
+                  navigateToChatScreen();
                 }else{
                   showErrorMessage(response.message);
                 }
@@ -127,7 +131,7 @@ void signIn() async{
           setBusyForObject("isSigningIn", true);
           var response = await authServicesHit.login(email: email, password: password);
           if(response.success){
-            navigateToHomeScreen();
+            navigateToChatScreen();
           }
           else{
             showErrorMessage(response.message);
@@ -150,8 +154,8 @@ void signOut() async{
     await authServicesHit.logout();
     navigateToSignInScreen();
 }
-void navigateToHomeScreen(){
-  navService.navigateToHomeScreen();
+void navigateToChatScreen(){
+  navService.navigateToChatScreen();
 }
 void navigateToSignUpScreen(){
     navService.navigateToSignUpScreen();
