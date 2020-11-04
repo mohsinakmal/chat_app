@@ -1,16 +1,16 @@
 import 'dart:io';
 
+import 'package:chat_app/models/users.dart';
 import 'package:chat_app/services/auth_services_hit.dart';
 import 'package:chat_app/utils/common_functions.dart';
 import 'package:chat_app/viewmodels/my_base_view_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignUpViewModel extends MyBaseViewModel{
   AuthServicesHit authServicesHit = AuthServicesHit();
-  String name;
-  String email;
-  String password;
   File _profileImage;
+  Users user;
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -25,6 +25,7 @@ class SignUpViewModel extends MyBaseViewModel{
   String errorMessage;
 
   void initializeModel() async{
+    _profileImage = null;
     nameController.clear();
     emailController.clear();
     passwordController.clear();
@@ -81,13 +82,16 @@ void validateInfo() async{
             if(CommonFunctions.hasOneLowerCase(
                 passwordController.text.trim())){
               if(CommonFunctions.hasOneDigit(passwordController.text.trim())){
-                name = nameController.text;
-                email = emailController.text;
-                password = passwordController.text;
+                user = new Users();
+                user.name = nameController.text;
+                user.email = emailController.text;
+                user.password = passwordController.text;
+                user.profileImage = "";
+                user.id = authServicesHit.userId();
                 setBusyForObject("isSigningUp", true);
-                var response = await authServicesHit.signup(name: name, email: email, password: password);
+                var response = await authServicesHit.signup(user,_profileImage);
                 if(response.success){
-                  navigateToChatScreen();
+                  navigateToHomeScreen();
                 }else{
                   showErrorMessage(response.message);
                 }
@@ -126,10 +130,10 @@ void signIn() async{
     if(emailController.text.length > 0){
       if(passwordController.text.length > 0){
         if(CommonFunctions.isValidEmail(emailController.text.trim())){
-          email = emailController.text;
-          password = passwordController.text;
+          user.email = emailController.text;
+          user.password = passwordController.text;
           setBusyForObject("isSigningIn", true);
-          var response = await authServicesHit.login(email: email, password: password);
+          var response = await authServicesHit.login(email: user.email, password: user.password);
           if(response.success){
             navigateToChatScreen();
           }
@@ -150,7 +154,27 @@ void signIn() async{
       showErrorMessage("Please Enter valid Email");
     }
 }
-void signOut() async{
+  Future<PickedFile> _getImageFromGallery()async{
+    return await ImagePicker().getImage(source: ImageSource.gallery);
+  }
+  Future<PickedFile> _getImageFromCamera()async{
+    return await ImagePicker().getImage(source: ImageSource.camera);
+  }
+  void selectProfileImageFromGallery() async{
+    var response = await _getImageFromGallery();
+    if(response!=null){
+      _profileImage = File(response.path);
+      notifyListeners();
+    }
+  }
+  void selectProfileImageFromCamera() async{
+    var response = await _getImageFromCamera();
+    if(response!=null){
+      _profileImage = File(response.path);
+      notifyListeners();
+    }
+  }
+  void signOut() async{
     await authServicesHit.logout();
     navigateToSignInScreen();
 }
@@ -162,6 +186,9 @@ void navigateToSignUpScreen(){
 }
 void navigateToSignInScreen(){
     navService.navigateToSignInScreen();
+}
+void navigateToHomeScreen(){
+    navService.navigateToHomeScreen();
 }
 
 }

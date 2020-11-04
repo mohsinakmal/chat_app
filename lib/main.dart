@@ -2,6 +2,7 @@ import 'package:chat_app/utils/screen_util.dart';
 import 'package:chat_app/utils/size_config.dart';
 import 'package:chat_app/viewmodels/navigation_viewmodel.dart';
 import 'package:chat_app/views/chat_screen.dart';
+import 'package:chat_app/views/home.dart';
 import 'package:chat_app/views/sign_in.dart';
 import 'package:chat_app/views/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         return OrientationBuilder(
           builder: (context, orientation){
             SizeConfig().init(constraints, orientation);
-            return mAuth.currentUser !=null ? ChatScreen():SignIn();
+            return mAuth.currentUser !=null ? HomeScreen():SignIn();
           },
         );
       }

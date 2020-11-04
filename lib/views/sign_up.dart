@@ -37,6 +37,94 @@ class SignUp extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
+                          height: SizeConfig.heightMultiplier *3 ,
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          width: SizeConfig.imageSizeMultiplier * 24.8,
+                          height: SizeConfig.imageSizeMultiplier * 24.8,
+                          child: Stack(
+                            children: [
+                              Container(
+                                width: SizeConfig.imageSizeMultiplier * 32,
+                                height: SizeConfig.imageSizeMultiplier * 32,
+                                child: ClipOval(
+                                    child:data.getProfileImage()!=null? Image.file(data.getProfileImage(),fit: BoxFit.cover,):Image.asset(ImageUtils.profile,fit: BoxFit.contain, width: SizeConfig.imageSizeMultiplier * 24.8, height: SizeConfig.imageSizeMultiplier * 24.8,)
+                                ),
+                                decoration: new BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    boxShadow: [BoxShadow(
+                                      color: Colors.black.withOpacity(.16),
+                                      blurRadius: 4 *
+                                          SizeConfig.imageSizeMultiplier,
+                                    )
+                                    ]
+                                ),
+                              ),
+                              Container(
+                                child: Align(
+                                    alignment: Alignment.bottomRight,
+                                    child :PopupMenuButton<String>(
+                                      icon: Container(
+                                        width: SizeConfig.imageSizeMultiplier * 1,
+                                        height: SizeConfig.imageSizeMultiplier * 1,
+                                        // decoration: new BoxDecoration(
+                                        //     color: Colors.white,
+                                        //     shape: BoxShape.circle,
+                                        //     boxShadow: [BoxShadow(
+                                        //       color: Colors.black.withOpacity(.16),
+                                        //       blurRadius: 4 *
+                                        //           SizeConfig.imageSizeMultiplier,
+                                        //     )
+                                        //     ]
+                                        // ),
+                                        child: Center(
+                                          child: Container(
+                                            width: SizeConfig.imageSizeMultiplier * 6.2,
+                                            height: SizeConfig.imageSizeMultiplier * 6.2,
+                                            child: Center(
+                                              child: Icon(Icons.camera_alt),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      onSelected: (value){
+                                        switch(value){
+                                          case "Camera":
+                                            data.selectProfileImageFromCamera();
+                                            break;
+
+                                          case "Gallery":
+                                            data.selectProfileImageFromGallery();
+                                            break;
+                                        }
+                                      },
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          value: "Gallery",
+                                          child: Text(
+                                            "Gallery",
+                                            style: TextStyle(
+                                                color: Color(0xFF262626), fontSize: 2*SizeConfig.textMultiplier,),
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          value: "Camera",
+                                          child: Text(
+                                            "Camera",
+                                            style: TextStyle(
+                                                color: Color(0xFF262626), fontSize: 2*SizeConfig.textMultiplier,),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
                           height: SizeConfig.heightMultiplier * 2,
                         ),
                         Container(

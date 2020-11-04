@@ -35,15 +35,18 @@ dependencies:
   firebase_auth: ^0.18.1+2
   cloud_firestore: ^0.14.2
   stacked: ^1.7.6
-  injectable_generator: ^1.0.6
   page_transition: ^1.1.7+2
+  image_picker: ^0.6.7+12
+  firebase_storage:
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  injectable_generator: ^1.0.6
-  build_runner: ^1.10.3
+  build_runner:
+  json_serializable:
+  json_model:
+
 
 
 

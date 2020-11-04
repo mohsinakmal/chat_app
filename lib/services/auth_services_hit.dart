@@ -5,6 +5,7 @@ import 'package:chat_app/models/login_response.dart';
 import 'package:chat_app/models/signup_response.dart';
 import 'package:chat_app/viewmodels/my_base_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class AuthServicesHit extends MyBaseViewModel implements AuthServices{
   @override
@@ -19,18 +20,16 @@ class AuthServicesHit extends MyBaseViewModel implements AuthServices{
   }
 
   @override
-  Future<SignUpResponse> signup({String name, String email, String password}) async{
+  Future<SignUpResponse> signup(data, profileImage) async{
     try{
-      await mAuth.createUserWithEmailAndPassword(email: email, password: password);
+      await mAuth.createUserWithEmailAndPassword(email: data.email, password: data.password);
       String userId = mAuth.currentUser.uid;
-      firestore.collection("Users").doc(userId).set(
-        {
-          "name": name,
-          "email": email,
-          "password": password,
-
-        }
-      );
+      storageRef = storageRef.child(userId);
+      if(profileImage!=null){
+        UploadTask uploadTask =  storageRef.child(DateTime.now().toString()).putFile(profileImage);
+        data.profileImage = await(await uploadTask.whenComplete(() => null)).ref.getDownloadURL();
+      }
+      await firestore.collection("Users").doc(userId).set(data.toJson());
       return SignUpResponse(success: true, message: "success");
     }
     catch(e){
@@ -41,6 +40,9 @@ class AuthServicesHit extends MyBaseViewModel implements AuthServices{
   @override
   Future logout() async{
     await FirebaseAuth.instance.signOut();
+  }
+  String userId(){
+    return mAuth.currentUser.uid;
   }
 
 }

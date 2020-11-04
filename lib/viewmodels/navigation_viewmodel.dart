@@ -1,6 +1,7 @@
 
 
 import 'package:chat_app/views/chat_screen.dart';
+import 'package:chat_app/views/home.dart';
 import 'package:chat_app/views/profile.dart';
 import 'package:chat_app/views/sign_in.dart';
 import 'package:chat_app/views/sign_up.dart';
@@ -29,5 +30,10 @@ class NavigationViewModel{
     navigationKey.currentState.push(PageTransition(
         type: PageTransitionType.fade,
         child: Profile()));
+  }
+  void navigateToHomeScreen(){
+    navigationKey.currentState.push(PageTransition(
+        type: PageTransitionType.fade,
+        child: HomeScreen()));
   }
 }
