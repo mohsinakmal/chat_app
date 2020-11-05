@@ -29,7 +29,15 @@ class AuthServicesHit extends MyBaseViewModel implements AuthServices{
         UploadTask uploadTask =  storageRef.child(DateTime.now().toString()).putFile(profileImage);
         data.profileImage = await(await uploadTask.whenComplete(() => null)).ref.getDownloadURL();
       }
-      await firestore.collection("Users").doc(userId).set(data.toJson());
+      await firestore.collection("Users").doc(userId).set(
+        {
+          "name" : data.name ,
+          "email" : data.email ,
+          "password": data.password ,
+          "profileImage": data.profileImage,
+          "id" : userId
+        }
+      );
       return SignUpResponse(success: true, message: "success");
     }
     catch(e){
@@ -41,8 +49,6 @@ class AuthServicesHit extends MyBaseViewModel implements AuthServices{
   Future logout() async{
     await FirebaseAuth.instance.signOut();
   }
-  String userId(){
-    return mAuth.currentUser.uid;
-  }
+
 
 }

@@ -14,6 +14,7 @@ class SignUpViewModel extends MyBaseViewModel{
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  //String userId;
   File getProfileImage() => _profileImage;
   bool isSigningIn = false;
   FocusNode nameFocus = new FocusNode();
@@ -87,7 +88,6 @@ void validateInfo() async{
                 user.email = emailController.text;
                 user.password = passwordController.text;
                 user.profileImage = "";
-                user.id = authServicesHit.userId();
                 setBusyForObject("isSigningUp", true);
                 var response = await authServicesHit.signup(user,_profileImage);
                 if(response.success){

@@ -18,24 +18,50 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<UserViewModel>.reactive(
         builder: (context, data, child){
+          data.getUsers();
           return Scaffold(
             appBar: AppBar(
-              title: Text("Home"),
+              actions: [
+                PopupMenuButton<String>(
+                  onSelected: (value){
+                    switch(value){
+                      case "Profile":
+                        data.navigateToProfileScreen();
+                        break;
+
+                      case "Logout":
+                        data.signOut();
+                        break;
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                        value: "Profile",
+                        child: Text("Profile")),
+                    PopupMenuItem(
+                        value: "Logout",
+                        child: Text("Logout")),
+                  ],
+                )
+              ],
+              title: Text("ChatApp"),
               centerTitle: true,
             ),
             body: Container(
               margin: EdgeInsets.symmetric(vertical: SizeConfig.heightMultiplier * 3, horizontal: SizeConfig.widthMultiplier * 2),
               child: ListView.separated(
-                itemCount: 2,
+                itemCount: 3,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     child: Row(
                       children: [
                         ClipOval(
-                            child:Image.asset(ImageUtils.profile,fit: BoxFit.contain, width: SizeConfig.imageSizeMultiplier * 14.8, height: SizeConfig.imageSizeMultiplier * 14.8,)
+                            child:data.getProfileImage() != null? Image.network(data.users[index].profileImage,fit: BoxFit.cover,) : Image.asset(ImageUtils.profile,fit: BoxFit.contain, width: SizeConfig.imageSizeMultiplier * 14.8, height: SizeConfig.imageSizeMultiplier * 14.8,)
                         ),
                         SizedBox(width: SizeConfig.widthMultiplier * 3,),
-
+                        Container(
+                         child: Text(data.users[index].name),
+                        ),
                       ],
                     ),
                   );
