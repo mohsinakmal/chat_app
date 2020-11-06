@@ -14,10 +14,10 @@ class UserViewModel extends MyBaseViewModel{
   File getProfileImage() => _profileImage;
   AuthServicesHit authServicesHit = AuthServicesHit();
   List<Users> users= [];
-  void getUsers() async{
+  Future getUsers() async{
     List<Users> allUsers=(await firestore.collection("Users").get()).docs.map((user) => Users.fromJson(user.data())).toList();
-    users = allUsers.where((users) =>  user.id != mAuth.currentUser.uid);
-
+    allUsers.removeWhere((element) => element.id == mAuth.currentUser.uid);
+    users = allUsers;
   }
   void signOut() async{
     await authServicesHit.logout();
@@ -29,5 +29,8 @@ class UserViewModel extends MyBaseViewModel{
   }
   void navigateToProfileScreen(){
     navService.navigateToProfileScreen();
+  }
+  void navigateToChatScreen(){
+    navService.navigateToChatScreen();
   }
 }

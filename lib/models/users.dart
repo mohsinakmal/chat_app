@@ -11,6 +11,7 @@ class Users {
     String password;
     String profileImage;
     String id;
+    String message;
     
     factory Users.fromJson(Map<String,dynamic> json) => _$UsersFromJson(json);
     Map<String, dynamic> toJson() => _$UsersToJson(this);

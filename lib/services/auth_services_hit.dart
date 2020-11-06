@@ -3,6 +3,7 @@
 import 'package:chat_app/abstract_class/auth_services.dart';
 import 'package:chat_app/models/login_response.dart';
 import 'package:chat_app/models/signup_response.dart';
+import 'package:chat_app/models/users.dart';
 import 'package:chat_app/viewmodels/my_base_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -49,6 +50,4 @@ class AuthServicesHit extends MyBaseViewModel implements AuthServices{
   Future logout() async{
     await FirebaseAuth.instance.signOut();
   }
-
-
 }

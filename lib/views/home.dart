@@ -50,17 +50,27 @@ class _HomeScreenState extends State<HomeScreen> {
             body: Container(
               margin: EdgeInsets.symmetric(vertical: SizeConfig.heightMultiplier * 3, horizontal: SizeConfig.widthMultiplier * 2),
               child: ListView.separated(
-                itemCount: 3,
+                itemCount: data.users.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     child: Row(
                       children: [
-                        ClipOval(
-                            child:data.getProfileImage() != null? Image.network(data.users[index].profileImage,fit: BoxFit.cover,) : Image.asset(ImageUtils.profile,fit: BoxFit.contain, width: SizeConfig.imageSizeMultiplier * 14.8, height: SizeConfig.imageSizeMultiplier * 14.8,)
+                        GestureDetector(
+                          onTap: (){
+                            data.navigateToChatScreen();
+                          },
+                          child: ClipOval(
+                              child:data.users[index].profileImage != null? Image.network(data.users[index].profileImage,fit: BoxFit.cover, width: SizeConfig.imageSizeMultiplier * 14.8, height: SizeConfig.imageSizeMultiplier * 14.8,) : Image.asset(ImageUtils.profile,fit: BoxFit.contain, width: SizeConfig.imageSizeMultiplier * 14.8, height: SizeConfig.imageSizeMultiplier * 14.8,)
+                          ),
                         ),
-                        SizedBox(width: SizeConfig.widthMultiplier * 3,),
-                        Container(
-                         child: Text(data.users[index].name),
+                        SizedBox(width: SizeConfig.widthMultiplier * 6,),
+                        GestureDetector(
+                          onTap: (){
+                            data.navigateToChatScreen();
+                          },
+                          child: Container(
+                           child: Text(data.users[index].name),
+                          ),
                         ),
                       ],
                     ),

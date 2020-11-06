@@ -130,12 +130,13 @@ void signIn() async{
     if(emailController.text.length > 0){
       if(passwordController.text.length > 0){
         if(CommonFunctions.isValidEmail(emailController.text.trim())){
+          user = new Users();
           user.email = emailController.text;
           user.password = passwordController.text;
           setBusyForObject("isSigningIn", true);
           var response = await authServicesHit.login(email: user.email, password: user.password);
           if(response.success){
-            navigateToChatScreen();
+            navigateToHomeScreen();
           }
           else{
             showErrorMessage(response.message);

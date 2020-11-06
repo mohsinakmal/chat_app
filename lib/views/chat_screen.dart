@@ -56,6 +56,21 @@ class _HomeScreenState extends State<ChatScreen> {
                     height: double.infinity,
                     width: double.infinity,
                   ),
+                  SizedBox(height: SizeConfig.heightMultiplier * 6,),
+                  Container(
+                    margin: EdgeInsets.only(
+                        top: SizeConfig.heightMultiplier * 3,
+                        right:SizeConfig.widthMultiplier * 8,
+                        left: SizeConfig.widthMultiplier * 3
+                    ),
+                    height: SizeConfig.heightMultiplier * 6,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius:BorderRadius.circular(12),
+                      color: Colors.white,
+                    ),
+                    //child: Text(''),
+                  ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Stack(
@@ -111,7 +126,11 @@ class _HomeScreenState extends State<ChatScreen> {
                                   child: Icon(Icons.camera_alt,color: Colors.grey,)),
                               Positioned(
                                   right: SizeConfig.widthMultiplier * 15 ,
-                                  child:Icon(Icons.attach_file, color: Colors.grey,)),
+                                  child:GestureDetector(
+                                    onTap: (){
+                                      data.setChat();
+                                    },
+                                      child: Icon(Icons.attach_file, color: Colors.grey,))),
                               //Icon(Icons.attach_file),
                             ],
                             overflow: Overflow.clip,
@@ -119,7 +138,11 @@ class _HomeScreenState extends State<ChatScreen> {
                         ),
                         Positioned(
                             bottom: SizeConfig.heightMultiplier * 5,
-                            child: Icon(Icons.arrow_forward_ios_sharp),),
+                            child:GestureDetector(
+                                onTap: (){
+                                  data.setChat();
+                                },
+                                child: Icon(Icons.arrow_forward_ios_sharp,))),
                       ],
                     ),
                   ),
