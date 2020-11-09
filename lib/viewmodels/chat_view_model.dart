@@ -1,5 +1,6 @@
 
 
+import 'package:chat_app/models/chat.dart';
 import 'package:chat_app/models/users.dart';
 import 'package:chat_app/services/auth_services_hit.dart';
 import 'package:chat_app/viewmodels/my_base_view_model.dart';
@@ -9,21 +10,28 @@ class ChatViewModel extends MyBaseViewModel{
 
   AuthServicesHit authServicesHit = AuthServicesHit();
   String message;
-  Users user;
+  Users user = new Users();
   final messageController = TextEditingController();
   FocusNode messageFocus = new FocusNode();
   bool isMessageInFocus = false;
+  List<Chat> chats = [];
+
 
   void setChat() async{
-    user.message = messageController.text;
+    //user.message = messageController.text;
     String docID = firestore.collection("Chat").doc().id;
-    await firestore.collection("Chat").doc(docID).set(
-      {
-        'message' : user.message,
-        'docID' : docID,
-        'user' : mAuth.currentUser.uid,
-      }
-    ).catchError((error){ print(error);});
+    Chat chaat = new Chat();
+    chaat.user = mAuth.currentUser.uid;
+    chaat.message = messageController.text;
+    //chaat.docID = docID;
+    chats.add(chaat);
+    List<String> users = new List<String>();
+    users.add(mAuth.currentUser.uid);
+    users.add();
+    await firestore.collection("Chat").doc(docID).set({
+      'chats' : chats,
+      'docID' : docID,
+    }).catchError((error){ print(error);});
   }
 
   void _onMessageFocus(){

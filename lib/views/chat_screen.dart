@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class ChatScreen extends StatefulWidget {
+  final String id;
+  const ChatScreen({Key key,this.id}):super(key:key);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -56,20 +58,39 @@ class _HomeScreenState extends State<ChatScreen> {
                     height: double.infinity,
                     width: double.infinity,
                   ),
-                  SizedBox(height: SizeConfig.heightMultiplier * 6,),
-                  Container(
-                    margin: EdgeInsets.only(
-                        top: SizeConfig.heightMultiplier * 3,
-                        right:SizeConfig.widthMultiplier * 8,
-                        left: SizeConfig.widthMultiplier * 3
-                    ),
-                    height: SizeConfig.heightMultiplier * 6,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius:BorderRadius.circular(12),
-                      color: Colors.white,
-                    ),
-                    //child: Text(''),
+                  Column(
+                    children: [
+                      //SizedBox(height: SizeConfig.heightMultiplier * 3,),
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: SizeConfig.heightMultiplier * 3,
+                            right:SizeConfig.widthMultiplier * 8,
+                            left: SizeConfig.widthMultiplier * 3
+                        ),
+                        height: SizeConfig.heightMultiplier * 6,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius:BorderRadius.circular(12),
+                          color: Colors.white,
+                        ),
+                        //child: Text(''),
+                      ),
+                      //SizedBox(height: SizeConfig.heightMultiplier * 6,),
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: SizeConfig.heightMultiplier * 3,
+                            right:SizeConfig.widthMultiplier * 8,
+                            left: SizeConfig.widthMultiplier * 3
+                        ),
+                        height: SizeConfig.heightMultiplier * 6,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius:BorderRadius.circular(12),
+                          color: Colors.greenAccent,
+                        ),
+                        //child: Text(''),
+                      ),
+                    ],
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -82,7 +103,7 @@ class _HomeScreenState extends State<ChatScreen> {
                               right: 8.5 * SizeConfig.widthMultiplier,
                               left: 3.5 * SizeConfig.widthMultiplier
                           ),
-                          height: SizeConfig.heightMultiplier * 8,
+                          height: SizeConfig.heightMultiplier * 6,
                           decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
                               borderRadius:BorderRadius.all(Radius.circular(50)),
@@ -126,18 +147,14 @@ class _HomeScreenState extends State<ChatScreen> {
                                   child: Icon(Icons.camera_alt,color: Colors.grey,)),
                               Positioned(
                                   right: SizeConfig.widthMultiplier * 15 ,
-                                  child:GestureDetector(
-                                    onTap: (){
-                                      data.setChat();
-                                    },
-                                      child: Icon(Icons.attach_file, color: Colors.grey,))),
+                                  child:Icon(Icons.attach_file, color: Colors.grey,)),
                               //Icon(Icons.attach_file),
                             ],
                             overflow: Overflow.clip,
                           ),
                         ),
                         Positioned(
-                            bottom: SizeConfig.heightMultiplier * 5,
+                            bottom: SizeConfig.heightMultiplier * 4,
                             child:GestureDetector(
                                 onTap: (){
                                   data.setChat();

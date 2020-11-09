@@ -9,15 +9,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserViewModel extends MyBaseViewModel{
-  Users user;
   File _profileImage;
   File getProfileImage() => _profileImage;
   AuthServicesHit authServicesHit = AuthServicesHit();
   List<Users> users= [];
   Future getUsers() async{
+    setBusyForObject("isLoadingUsers", true);
     List<Users> allUsers=(await firestore.collection("Users").get()).docs.map((user) => Users.fromJson(user.data())).toList();
     allUsers.removeWhere((element) => element.id == mAuth.currentUser.uid);
     users = allUsers;
+    notifyListeners();
+    //setBusyForObject("isLoadingUsers", false);
   }
   void signOut() async{
     await authServicesHit.logout();
@@ -30,7 +32,7 @@ class UserViewModel extends MyBaseViewModel{
   void navigateToProfileScreen(){
     navService.navigateToProfileScreen();
   }
-  void navigateToChatScreen(){
-    navService.navigateToChatScreen();
+  void navigateToChatScreen(Users id){
+    navService.navigateToChatScreen(id);
   }
 }

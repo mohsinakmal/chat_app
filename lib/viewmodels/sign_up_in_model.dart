@@ -4,6 +4,7 @@ import 'package:chat_app/models/users.dart';
 import 'package:chat_app/services/auth_services_hit.dart';
 import 'package:chat_app/utils/common_functions.dart';
 import 'package:chat_app/viewmodels/my_base_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -180,7 +181,7 @@ void signIn() async{
     navigateToSignInScreen();
 }
 void navigateToChatScreen(){
-  navService.navigateToChatScreen();
+  navService.navigateToChatScreen(Users());
 }
 void navigateToSignUpScreen(){
     navService.navigateToSignUpScreen();
