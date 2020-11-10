@@ -8,13 +8,15 @@ part of 'chat.dart';
 
 Chat _$ChatFromJson(Map<String, dynamic> json) {
   return Chat()
-    ..message = json['message'] as String
+    ..chat = json['chat'] as List
     ..docID = json['docID'] as String
-    ..user = json['user'] as String;
+    ..user = json['user'] as List
+    ..createdAt = json['createdAt'] as String;
 }
 
 Map<String, dynamic> _$ChatToJson(Chat instance) => <String, dynamic>{
-      'message': instance.message,
+      'chat': instance.chat,
       'docID': instance.docID,
-      'user': instance.user
+      'user': instance.user,
+      'createdAt': instance.createdAt
     };

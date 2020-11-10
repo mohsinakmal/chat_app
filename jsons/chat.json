@@ -1,5 +1,6 @@
 {
-  "message" : "",
+  "chat" : [],
   "docID" : "",
-  "user" : ""
+  "user" : [],
+  "createdAt" : ""
 }

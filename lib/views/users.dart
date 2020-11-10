@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         GestureDetector(
                           onTap: (){
-                            data.navigateToChatScreen(data.users[index]);
+                            data.navigateToChatScreen();
                           },
                           child: ClipOval(
 
@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(width: SizeConfig.widthMultiplier * 6,),
                         GestureDetector(
                           onTap: (){
-                            data.navigateToChatScreen(data.users[index]);
+                            data.navigateToChatScreen();
                           },
                           child: Container(
                            child: Text(data.users[index].name),
