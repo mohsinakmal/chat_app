@@ -19,41 +19,41 @@ class ChatViewModel extends MyBaseViewModel{
   //List<Message> chats = new List<Message>();
   String docID = '';
   List<Map<String,String>> chatss = new List<Map<String,String>>();
+  String receiver;
 
   void setChat() async{
-    //user.message = messageController.text;
-    if (docID.isEmpty){
-      docID = firestore.collection("Chat").doc().id;
+    String groupID;
+    if (mAuth.currentUser.uid.hashCode <= receiver.hashCode) {
+      groupID = '${mAuth.currentUser.uid}-$receiver';
+    } else {
+      groupID = '$receiver-${mAuth.currentUser.uid}';
     }
-    // Message message = new Message();
-    // message.user = mAuth.currentUser.uid;
-    // message.message = messageController.text;
-
-    Map<String,String> messages = new Map<String,String>();
-    messages['message'] = messageController.text;
-    messages['user'] = mAuth.currentUser.uid;
-    //List<String> message = new List<String>();
-    //String user  = mAuth.currentUser.uid;
-    //String messages = messageController.text;
-    // message.add(user.);
-    // message.add(messages);
-    //chaat.docID = docID;
-    chatss.add(messages);
-    //chats.add(message);
-    List<String> users = new List<String>();
-    users.add(mAuth.currentUser.uid);
-    Chat chat = new Chat();
-    chat.chat = chatss;
-    chat.docID = docID;
-    chat.user = [mAuth.currentUser.uid,""];
+    String docID = await firestore
+        .collection("chat")
+        .doc(mAuth.currentUser.uid+receiver)
+        .collection(mAuth.currentUser.uid+receiver)
+        .doc()
+        .id;
+    Message message = new Message();
+    message.message = messageController.text;
+    message.user = mAuth.currentUser.uid;
+    message.docID = docID;
+    message.createdAt = Timestamp.fromDate(DateTime.now());
     //users.add();
-    await firestore.collection("Chat").doc(docID).set(chat.toJson()).catchError(
+    await firestore
+        .collection("chat")
+        .doc(groupID)
+        .collection(groupID)
+        .doc(docID)
+        .set(message.toJson()).catchError(
             (error){
       print(error);
             }
       );
     messageController.clear();
   }
+
+
 
   void _onMessageFocus(){
     if(messageFocus.hasFocus){
@@ -78,6 +78,22 @@ class ChatViewModel extends MyBaseViewModel{
   }
   void navigateToProfileScreen(){
     navService.navigateToProfileScreen();
+  }
+
+
+  Stream<QuerySnapshot> getChat(){
+    String groupID;
+    if (mAuth.currentUser.uid.hashCode <= receiver.hashCode) {
+      groupID = '${mAuth.currentUser.uid}-$receiver';
+    } else {
+      groupID = '$receiver-${mAuth.currentUser.uid}';
+    }
+    return firestore
+        .collection("chat")
+        .doc(groupID)
+        .collection(groupID)
+        .orderBy('createdAt',descending: true)
+        .snapshots();
   }
 
 }

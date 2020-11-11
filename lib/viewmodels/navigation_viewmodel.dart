@@ -11,10 +11,10 @@ import 'package:page_transition/page_transition.dart';
 
 class NavigationViewModel{
   final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
-  void navigateToChatScreen(){
+  void navigateToChatScreen(String id){
     navigationKey.currentState.push(PageTransition(
         type: PageTransitionType.fade,
-        child: ChatScreen(
+        child: ChatScreen(id: id,
         )));
   }
   void navigateToSignUpScreen(){

@@ -32,7 +32,7 @@ class UserViewModel extends MyBaseViewModel{
   void navigateToProfileScreen(){
     navService.navigateToProfileScreen();
   }
-  void navigateToChatScreen(){
-    navService.navigateToChatScreen();
+  void navigateToChatScreen(String id){
+    navService.navigateToChatScreen(id);
   }
 }

@@ -181,7 +181,7 @@ void signIn() async{
     navigateToSignInScreen();
 }
 void navigateToChatScreen(){
-  navService.navigateToChatScreen();
+  //navService.navigateToChatScreen();
 }
 void navigateToSignUpScreen(){
     navService.navigateToSignUpScreen();

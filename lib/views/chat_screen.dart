@@ -21,6 +21,7 @@ class _HomeScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<ChatViewModel>.reactive(
         builder: (context, data, child){
+          data.receiver = widget.id;
           return WillPopScope(
               child: Scaffold(
                 appBar: AppBar(
@@ -71,39 +72,19 @@ class _HomeScreenState extends State<ChatScreen> {
                       ),
 
                       StreamBuilder(
-                          stream:,
+                          stream:data.getChat(),
                           builder: (context, AsyncSnapshot<QuerySnapshot>snapshot) {
                             if (snapshot.hasData)
                             {
                               if (snapshot.data.size>0)
-                              return ListView.builder(itemBuilder: (context, index) {
+                              return ListView.builder(
+                                reverse: true,
+                                itemCount: snapshot.data.size,
+                                itemBuilder: (context, index) {
                                 return Column(
                                   children: [
                                     SizedBox(height: SizeConfig.heightMultiplier * 2,),
-                                    Wrap(
-                                      children: [
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                top: SizeConfig.heightMultiplier * 2,
-                                                right:SizeConfig.widthMultiplier * 8,
-                                                left: SizeConfig.widthMultiplier * 3,
-                                                bottom: SizeConfig.heightMultiplier * 2
-                                            ),
-                                            //height: SizeConfig.heightMultiplier * 6,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                              borderRadius:BorderRadius.circular(12),
-                                              color: Colors.white,
-                                            ),
-                                            child: Text("gfcgfcgfxfdxfdxdfx"),
-                                            //child: Text(''),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    //SizedBox(height: SizeConfig.heightMultiplier * 6,),
+                                    snapshot.data.docs[index]['user']==data.mAuth.currentUser.uid?
                                     Wrap(
                                       children: [
                                         Align(
@@ -121,11 +102,38 @@ class _HomeScreenState extends State<ChatScreen> {
                                               borderRadius:BorderRadius.circular(12),
                                               color: Colors.greenAccent,
                                             ),
-                                            child: Text('hello'),
+                                            child: Text(snapshot.data.docs[index]['message']),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                    :
+                                    Wrap(
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                                top: SizeConfig.heightMultiplier * 2,
+                                                right:SizeConfig.widthMultiplier * 8,
+                                                left: SizeConfig.widthMultiplier * 3,
+                                                bottom: SizeConfig.heightMultiplier * 2
+                                            ),
+                                            //height: SizeConfig.heightMultiplier * 6,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.rectangle,
+                                              borderRadius:BorderRadius.circular(12),
+                                              color: Colors.white,
+                                            ),
+                                            child: Text(snapshot.data.docs[index]['message']),
+                                            //child: Text(''),
                                           ),
                                         )
                                       ],
                                     ),
+
+                                    SizedBox(height: SizeConfig.heightMultiplier * 2,),
+
                                   ],
                                 );
                               },);
